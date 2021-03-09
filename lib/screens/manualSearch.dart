@@ -1,4 +1,4 @@
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sorts_app/model/input.dart';
 import 'package:sorts_app/model/static.dart';
@@ -219,16 +219,10 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-
-                  onSaved: (val) =>
-                      setState(() => _input.weight = double.parse(val)),
-                  //setState(() => _input.weight = double.parse(val)),
-                  onChanged: (val) {
+                  onSaved: (val) {
+                    if (val.isEmpty) return;
                     setState(() {
-                      if (val.isEmpty)
-                        validateWeightText = 'Weight cannot be empty';
-                      else
-                        validateWeightText = '';
+                      _input.weight = double.parse(val);
                     });
                   },
                 ))
@@ -535,9 +529,12 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onSaved: (val) =>
-                      setState(() => _input.tablePct = double.parse(val)),
-                  //setState(() => _input.tablePct = double.parse(val)),
+                  onSaved: (val) {
+                    if (val.isEmpty) return;
+                    setState(() {
+                      _input.tablePct = double.parse(val);
+                    });
+                  },
                   onChanged: (val) {
                     setState(() {
                       if (val.isEmpty)
@@ -623,9 +620,12 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onSaved: (val) =>
-                      setState(() => _input.depthPct = double.parse(val)),
-                  //setState(() => _input.depthPct = double.parse(val)),
+                  onSaved: (val) {
+                    if (val.isEmpty) return;
+                    setState(() {
+                      _input.depthPct = double.parse(val);
+                    });
+                  },
                   onChanged: (val) {
                     setState(() {
                       if (val.isEmpty)
@@ -701,9 +701,12 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onSaved: (val) =>
-                      setState(() => _input.crownHeight = double.parse(val)),
-                  //setState(() => _input.crownHeight = double.parse(val)),
+                  onSaved: (val) {
+                    if (val.isEmpty) return;
+                    setState(() {
+                      _input.crownHeight = double.parse(val);
+                    });
+                  },
                   onChanged: (val) {
                     setState(() {
                       if (val.isEmpty)
@@ -789,9 +792,12 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onSaved: (val) =>
-                      setState(() => _input.crownAngle = double.parse(val)),
-                  //setState(() => _input.crownAngle = double.parse(val)),
+                  onSaved: (val) {
+                    if (val.isEmpty) return;
+                    setState(() {
+                      _input.crownAngle = double.parse(val);
+                    });
+                  },
                   onChanged: (val) {
                     setState(() {
                       if (val.isEmpty)
@@ -867,9 +873,12 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onSaved: (val) =>
-                      setState(() => _input.pavilionDepth = double.parse(val)),
-                  //setState(() => _input.pavilionDepth = double.parse(val)),
+                  onSaved: (val) {
+                    if (val.isEmpty) return;
+                    setState(() {
+                      _input.pavilionDepth = double.parse(val);
+                    });
+                  },
                   onChanged: (val) {
                     setState(() {
                       if (val.isEmpty)
@@ -956,9 +965,12 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onSaved: (val) =>
-                      setState(() => _input.pavilionAngle = double.parse(val)),
-                  //setState(() => _input.pavilionAngle = double.parse(val)),
+                  onSaved: (val) {
+                    if (val.isEmpty) return;
+                    setState(() {
+                      _input.pavilionAngle = double.parse(val);
+                    });
+                  },
                   onChanged: (val) {
                     setState(() {
                       if (val.isEmpty)
@@ -1035,9 +1047,12 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onSaved: (val) =>
-                      //setState(() => _input.girdle = double.parse(val)),
-                      setState(() => _input.girdle = double.parse(val)),
+                  onSaved: (val) {
+                    if (val.isEmpty) return;
+                    setState(() {
+                      _input.girdle = double.parse(val);
+                    });
+                  },
                   onChanged: (val) {
                     setState(() {
                       if (val.isEmpty)
@@ -1124,9 +1139,12 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onSaved: (val) =>
-                      setState(() => _input.lowerHalf = double.parse(val)),
-                  //setState(() => _input.lowerHalf = double.parse(val)),
+                  onSaved: (val) {
+                    if (val.isEmpty) return;
+                    setState(() {
+                      _input.lowerHalf = double.parse(val);
+                    });
+                  },
                   onChanged: (val) {
                     setState(() {
                       if (val.isEmpty)
@@ -1212,9 +1230,12 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onSaved: (val) =>
-                      setState(() => _input.starface = double.parse(val)),
-                  //setState(() => _input.starface = double.parse(val)),
+                  onSaved: (val) {
+                    if (val.isEmpty) return;
+                    setState(() {
+                      _input.starface = double.parse(val);
+                    });
+                  },
                   onChanged: (val) {
                     setState(() {
                       if (val.isEmpty)
@@ -1279,7 +1300,36 @@ class ManualSearchFormState extends State<ManualSearchForm> {
   }
 
   Future<void> _submitForm() async {
-    List sorts_grade = [];
+    if (validateWeightText != '' ||
+        validateTablepctText != '' ||
+        validateTotalDepth != '' ||
+        validateCrownHeight != '' ||
+        validateCrownAngle != '' ||
+        validatePavilionDepth != '' ||
+        validatePavilionAngle != '' ||
+        validateGridleThickness != '' ||
+        validateStarFaceLenght != '' ||
+        validateLowerHavels != '') return;
+
+    if (validateWeightText != '' ||
+        validateTablepctText != '' ||
+        validateTotalDepth != '' ||
+        validateCrownHeight != '' ||
+        validateCrownAngle != '' ||
+        validatePavilionDepth != '' ||
+        validatePavilionAngle != '' ||
+        validateGridleThickness != '' ||
+        validateStarFaceLenght != '' ||
+        validateLowerHavels != '') return;
+
+    if (_input.tablePct == null ||
+        _input.crownHeight == null ||
+        _input.crownAngle == null ||
+        _input.lowerHalf == null ||
+        _input.pavilionDepth == null ||
+        _input.pavilionAngle == null ||
+        _input.girdle == null ||
+        _input.depthPct == null) return;
 
     if (_formKey.currentState.validate()) {
       final snackbar = SnackBar(content: Text('Calculating...'));
@@ -1306,7 +1356,6 @@ class ManualSearchFormState extends State<ManualSearchForm> {
       await _input.submit(gradeList[0].grade);
       Scaffold.of(context).removeCurrentSnackBar();
       Navigator.pop(context);
-      
     }
   }
 
