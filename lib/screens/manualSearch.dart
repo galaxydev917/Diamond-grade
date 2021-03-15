@@ -1311,31 +1311,22 @@ class ManualSearchFormState extends State<ManualSearchForm> {
         validateStarFaceLenght != '' ||
         validateLowerHavels != '') return;
 
-    if (validateWeightText != '' ||
-        validateTablepctText != '' ||
-        validateTotalDepth != '' ||
-        validateCrownHeight != '' ||
-        validateCrownAngle != '' ||
-        validatePavilionDepth != '' ||
-        validatePavilionAngle != '' ||
-        validateGridleThickness != '' ||
-        validateStarFaceLenght != '' ||
-        validateLowerHavels != '') return;
-
-    if (_input.tablePct == null ||
-        _input.crownHeight == null ||
-        _input.crownAngle == null ||
-        _input.lowerHalf == null ||
-        _input.pavilionDepth == null ||
-        _input.pavilionAngle == null ||
-        _input.girdle == null ||
-        _input.depthPct == null) return;
 
     if (_formKey.currentState.validate()) {
-      final snackbar = SnackBar(content: Text('Calculating...'));
-      Scaffold.of(context).showSnackBar(snackbar);
       _formKey.currentState.save();
 
+      if (_input.tablePct == null ||
+          _input.crownHeight == null ||
+          _input.crownAngle == null ||
+          _input.lowerHalf == null ||
+          _input.pavilionDepth == null ||
+          _input.pavilionAngle == null ||
+          _input.girdle == null ||
+          _input.depthPct == null) return;
+
+      final snackbar = SnackBar(content: Text('Calculating...'));
+      Scaffold.of(context).showSnackBar(snackbar);
+    
       var currentValList = [
         {'key': 'table_pct', 'value': _input.tablePct},
         {'key': 'crown_height', 'value': _input.crownHeight},
