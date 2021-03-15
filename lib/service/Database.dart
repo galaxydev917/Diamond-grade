@@ -29,15 +29,15 @@ class DBProvider {
     query = query + "'weight'	TEXT,";
     query = query + "'colour'	TEXT,";
     query = query + "'clarity'	TEXT,";
-    query = query + "'table_pct'	NUMERIC,";
-    query = query + "'total_depth'	NUMERIC,";
-    query = query + "'crown_height'	NUMERIC,";
-    query = query + "'crown_angle'	NUMERIC,";
-    query = query + "'pavillion_depth'	NUMERIC,";
-    query = query + "'pavillion_angle'	NUMERIC,";
-    query = query + "'starface_length'	NUMERIC,";
-    query = query + "'lower_havels'	NUMERIC,";
-    query = query + "'gridle_thickness'	NUMERIC,";
+    query = query + "'table_pct'	TEXT,";
+    query = query + "'depth_pct'	TEXT,";
+    query = query + "'crown_height'	TEXT,";
+    query = query + "'crown_angle'	TEXT,";
+    query = query + "'pavilion_depth'	TEXT,";
+    query = query + "'pavilion_angle'	TEXT,";
+    query = query + "'starface_length'	TEXT,";
+    query = query + "'lower_half'	TEXT,";
+    query = query + "'girdle'	TEXT,";
     query = query + "'culet'	TEXT,";
     query = query + "'grade'	TEXT,";
     query = query + "PRIMARY KEY('id' AUTOINCREMENT))";
@@ -50,7 +50,8 @@ class DBProvider {
 
   Future<List<Report>> getAllReports() async {
     final db = await database;
-    var res = await db.rawQuery("SELECT * FROM tbl_gradehistory ORDER BY id DESC");
+    var res =
+        await db.rawQuery("SELECT * FROM tbl_gradehistory ORDER BY id DESC");
     List<Report> reports =
         res.map((dynamic report) => Report.fromJson(report)).toList();
 
@@ -61,9 +62,8 @@ class DBProvider {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('d MMM yy H:mm').format(now);
     final db = await database;
-
     var raw = await db.rawInsert(
-        "INSERT Into tbl_gradehistory (createdAt, weight, colour, clarity, table_pct, total_depth, crown_height, crown_angle, pavillion_depth, pavillion_angle, starface_length, lower_havels, gridle_thickness, culet, grade)"
+        "INSERT Into tbl_gradehistory (createdAt, weight, colour, clarity, table_pct, depth_pct, crown_height, crown_angle, pavilion_depth, pavilion_angle, starface_length, lower_half, girdle, culet, grade)"
         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
           formattedDate,
@@ -74,8 +74,8 @@ class DBProvider {
           report['depth_pct'],
           report['crown_height'],
           report['crown_angle'],
-          report['pavillion_depth'],
-          report['pavillion_angle'],
+          report['pavilion_depth'],
+          report['pavilion_angle'],
           report['starface:'],
           report['lower_half'],
           report['girdle'],

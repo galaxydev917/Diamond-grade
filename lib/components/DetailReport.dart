@@ -147,7 +147,7 @@ class DetailReportState extends State<DetailReport> {
                 trailing: Row(
                   children: <Widget>[
                     Text(
-                      widget.report.totaldepth.toString(),
+                      widget.report.totaldepth,
                       style: TextStyle(
                           fontWeight: FontWeight.w300, color: Colors.grey),
                     ),

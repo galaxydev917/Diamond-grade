@@ -40,21 +40,21 @@ class Report {
   factory Report.fromJson(Map<String, dynamic> json) {
     return Report(
       id: json['id'],
-      grade: json['grade'] as String,
-      colour: json['colour'] as String,
-      weight: json['weight'] as String,
+      grade: json['grade'],
+      colour: json['colour'],
+      weight: json['weight'].toString(),
       clarity: json['clarity'] as String,
       createdAt: json['createdAt'] as String,
 
       tablepct: json["table_pct"].toString(),
-      totaldepth: json["total_depth"].toString(),
+      totaldepth: json["depth_pct"].toString(),
       crownheight: json["crown_height"].toString(),
       crownangle: json["crown_angle"].toString(),
-      pavilliondepth: json["pavillion_depth"].toString(),
-      pavillionangle: json["pavillion_angle"].toString(),
+      pavilliondepth: json["pavilion_depth"].toString(),
+      pavillionangle: json["pavilion_angle"].toString(),
       starfacelength: json["starface_length"].toString(),
-      lowerhavels: json["lower_havels"].toString(),
-      gridlethickness: json["gridle_thickness"].toString(),
+      lowerhavels: json["lower_half"].toString(),
+      gridlethickness: json["girdle"].toString(),
       culet: json["culet"],
     );
   }

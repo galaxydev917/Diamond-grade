@@ -55,10 +55,13 @@ class Input {
   factory Input.fromJson(Map<String, dynamic> json) => _$InputFromJson(json);
   Map<String, dynamic> toJson() => _$InputToJson(this);
 
-  Future<Report> submit(grade) async {
-    Map<String, dynamic> reportData = this.toJson();
-    reportData['grade'] = grade;
+  Future<Report> submit(reportData) async {
+    // print(this.toJson());
+    // Map<String, dynamic> reportData = this.toJson();
+    // reportData['grade'] = grade;
     await DBProvider.db.addReport(reportData);
-    //return reportData;
+
+    
+    return Report.fromJson(reportData);
   }
 }

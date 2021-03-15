@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sorts_app/model/input.dart';
+import 'package:sorts_app/model/report.dart';
 import 'package:sorts_app/model/static.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:sorts_app/screens/DetailReportScreen.dart';
 
 class ManualSearchForm extends StatefulWidget {
   @override
@@ -1311,7 +1313,6 @@ class ManualSearchFormState extends State<ManualSearchForm> {
         validateStarFaceLenght != '' ||
         validateLowerHavels != '') return;
 
-
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
@@ -1326,7 +1327,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
 
       final snackbar = SnackBar(content: Text('Calculating...'));
       Scaffold.of(context).showSnackBar(snackbar);
-    
+
       var currentValList = [
         {'key': 'table_pct', 'value': _input.tablePct},
         {'key': 'crown_height', 'value': _input.crownHeight},
@@ -1344,9 +1345,21 @@ class ManualSearchFormState extends State<ManualSearchForm> {
         gradeList.add(grade);
       }
       gradeList..sort((a, b) => b.result.compareTo(a.result));
-      await _input.submit(gradeList[0].grade);
+      //await _input.submit(gradeList[0].grade);
+
+      Map<String, dynamic> reportData = _input.toJson();
+      reportData['grade'] = gradeList[0].grade;
+
+      Report enteredVal = await _input.submit(reportData);
+      print(enteredVal.totaldepth);
       Scaffold.of(context).removeCurrentSnackBar();
-      Navigator.pop(context);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailReportScreen(report: enteredVal)),
+      );
+      // Navigator.pop(context);
     }
   }
 

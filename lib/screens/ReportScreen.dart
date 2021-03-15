@@ -1,8 +1,10 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:sorts_app/screens/manualSearchScreen.dart';
 import '../model/report.dart';
 import 'package:sorts_app/service/Database.dart';
+import 'package:sorts_app/screens/DetailReportScreen.dart';
 
 class ReportScreen extends StatefulWidget {
   @override
@@ -61,10 +63,10 @@ class ReportScreenState extends State<ReportScreen> {
 
   _getReports() {
     DBProvider.db.getAllReports().then((value) => {
-          setState(() {
-            reports = value;
-          })
-        });
+      setState(() {
+        reports = value;
+      })
+    });
   }
 
   Widget _buildReportsList() {
@@ -141,7 +143,14 @@ class ReportScreenState extends State<ReportScreen> {
         ],
         mainAxisSize: MainAxisSize.min,
       ),
-
+      onTap: () {
+        Navigator.push(
+          //this is where the functoinality is for the open/close
+          context,
+          MaterialPageRoute(
+              builder: (context) => DetailReportScreen(report: report)),
+        );
+      },
     );
   }
 
