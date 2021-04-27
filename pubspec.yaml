@@ -33,7 +33,7 @@ dependencies:
   path_provider: any
   flutter_icons: ^1.1.0
   barcode_scan: ^3.0.1
-
+  graphql_flutter: ^3.0.0
   flutter_mobile_vision: ^0.1.4+1
 
 dev_dependencies:
