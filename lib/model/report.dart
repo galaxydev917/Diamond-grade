@@ -17,6 +17,9 @@ class Report {
   final String lowerhavels;  
   final String gridlethickness;
   final String culet;
+  final int type;
+  final String gianumber;
+  
 
   Report({
     @required this.id,
@@ -34,7 +37,10 @@ class Report {
     @required this.starfacelength,
     @required this.lowerhavels,  
     @required this.gridlethickness,
-    @required this.culet,    
+    @required this.culet,  
+    @required this.type,
+    @required this.gianumber,
+  
   });
 
   factory Report.fromJson(Map<String, dynamic> json) {
@@ -56,6 +62,8 @@ class Report {
       lowerhavels: json["lower_half"].toString(),
       gridlethickness: json["girdle"].toString(),
       culet: json["culet"],
+      gianumber: json["gianumber"].toString(),
+      type: json["type"],
     );
   }
 }
