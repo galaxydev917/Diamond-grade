@@ -16,7 +16,7 @@ class DetailReportScreen extends StatelessWidget {
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => ReportScreen()),
               );
