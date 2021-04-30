@@ -21,7 +21,7 @@ class ReportScreenState extends State<ReportScreen> {
   // ignore: deprecated_member_use
   var reports = new List<Report>();
   String code = "";
-
+  String validateGiaText = "";
   // ignore: non_constant_identifier_names
   String report_number = '';
   bool isViewGIA = false;
@@ -127,21 +127,22 @@ class ReportScreenState extends State<ReportScreen> {
   }
 
   _getReports() {
-    setState(() {
-      isLoadingReports = true;
-    });
     DBProvider.db.getAllReports().then((value) => {
           setState(() {
+            //isLoadingReports = false;
             reports = value;
             isViewGIA = false;
-            isLoadingReports = false;
-            print(reports);
           })
         });
   }
 
   _getGIAReport() {
-    if (report_number == '') return;
+    if (report_number == '' || report_number.length != 10) {
+      setState(() {
+        validateGiaText = "Report number must be 10 digits.";
+      });
+      return;
+    }
 
     isEnableAddGia = true;
     setState(() {
@@ -150,21 +151,12 @@ class ReportScreenState extends State<ReportScreen> {
   }
 
   addReportToSql(result) async {
-    // if (gia_result == null) {
-    //   setState(() {
-    //     isViewGIA = false;
-    //   });
-    //   return;
-    // }
-    // print(report_number);
-    // var result = gia_result['getReport'];
-    // if (result == null) {
-    //   setState(() {
-    //     isViewGIA = false;
-    //   });
-    //   return;
-    // }
-
+    var shape = result['results']['shape_and_cutting_style'];
+    if (shape != 'Round Brilliant') {
+      validateGiaText =
+          "GIA Report not found. Please check the number and try again.";
+      return;
+    }
     isEnableAddGia = false;
     _input.weight = result['results']['carat_weight'];
     _input.clarity = result['results']['clarity_grade'];
@@ -181,185 +173,125 @@ class ReportScreenState extends State<ReportScreen> {
     _input.tablePct = result['results']['proportions']['table_pct'];
     _input.type = 1;
     _input.gianumber = report_number;
-    print(_input.toJson());
+    _input.grade = result['results']['cut_grade'];
     await DBProvider.db.addGIAReport(_input.toJson());
     _getReports();
   }
 
   Widget _buildReportsList() {
-    return isLoadingReports
-        ? Center(
-            child: Column(
+    return SingleChildScrollView(
+        child: Container(
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CircularProgressIndicator(
-                  backgroundColor: Colors.white,
-                  strokeWidth: 1,
-                ),
-                Text(
-                  "Loading...",
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ],
-            ),
-          )
-        : SingleChildScrollView(
-            child: Container(
-            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                          width: (MediaQuery.of(context).size.width) * 0.7,
-                          height: 60,
-                          padding: EdgeInsets.only(
-                              left: 10.0, right: 10.0, top: 10.0),
-                          //margin: const EdgeInsets.only(left: 10.0, right:10.0, top:20.0),
-                          child: TextFormField(
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[0-9.]')),
-                            ],
-                            keyboardType: TextInputType.number,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            decoration: InputDecoration(
-                              //keyboardType: TextInputType.number,
-                              filled: true,
-                              fillColor: Colors.white30,
-                              contentPadding: EdgeInsets.all(0.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.white70,
-                                  width: 2.0,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              hintText: "Enter a GIA Number",
-                              prefixIcon: Icon(Icons.search),
+                    width: (MediaQuery.of(context).size.width) * 0.7,
+                    height: 60,
+                    padding:
+                        EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                    //margin: const EdgeInsets.only(left: 10.0, right:10.0, top:20.0),
+                    child: Column(children: [
+                      TextFormField(
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                        ],
+                        keyboardType: TextInputType.number,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          //keyboardType: TextInputType.number,
+                          filled: true,
+                          fillColor: Colors.white30,
+                          contentPadding: EdgeInsets.all(0.0),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.white70,
+                              width: 2.0,
                             ),
-                            onChanged: (val) {
-                              //report_number = "2141438171";
-                              report_number = val;
-                            },
-                          )),
-                      Container(
-                        width: (MediaQuery.of(context).size.width) * 0.3,
-                        height: 50,
-                        padding: EdgeInsets.only(right: 10.0, top: 5.0),
-                        child: ElevatedButton(
-                            child: Text('GIA Look Up'),
-                            onPressed: () {
-                              _getGIAReport();
-                            }),
-                      )
-                    ],
-                  ),
-                ),
-                isViewGIA == true
-                    ? Query(
-                        options: QueryOptions(
-                            documentNode: gql(_query),
-                            variables: {'reportNumber': report_number}),
-                        builder: (
-                          QueryResult result, {
-                          VoidCallback refetch,
-                          FetchMore fetchMore,
-                        }) {
-                          if (result.loading) {
-                            return Container(
-                                child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  CircularProgressIndicator(
-                                    backgroundColor: Colors.white,
-                                    strokeWidth: 1,
-                                  ),
-                                  Text(
-                                    "Loading...",
-                                    style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ));
-                          }
-                          // if (result.hasException) return Container();
-                          if (result.hasException || result.data == null || result.data['getReport'] == null) {
-                            if (reports.length > 0)
-                              return Container(
-                                  height: (MediaQuery.of(context).size.height -
-                                      220),
-                                  margin: EdgeInsets.all(10.0),
-                                  child: ListView.separated(
-                                    separatorBuilder: (context, index) =>
-                                        Divider(
-                                      color: Colors.white24,
-                                    ),
-                                    itemCount: reports.length,
-                                    itemBuilder: (context, index) =>
-                                        _buildReportItem(reports[index]),
-                                  ));
-                            else
-                              return Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.only(top: 50.0),
-                                      alignment: Alignment.center,
-                                      child: Image.asset(
-                                          "assets/images/binoculars.png",
-                                          width: 150,
-                                          height: 150),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 20.0),
-                                      child: Text(
-                                        "Find a stone!",
-                                        style: TextStyle(
-                                            letterSpacing: 5.0,
-                                            fontSize: 24.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.symmetric(
-                                          vertical: 10.0, horizontal: 40.0),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Search for a stone and it will show up here.",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            letterSpacing: 1.5,
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                          } else {
-                            if (isEnableAddGia)
-                              addReportToSql(result.data['getReport']);
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          hintText: "Enter a GIA Number",
+                          prefixIcon: Icon(Icons.search),
+                        ),
+                        onChanged: (val) {
+                          setState(() {
+                            if (val.length != 10) {
+                              validateGiaText = 'Report numnere must be 10 digits';
+                              isViewGIA = false;
+                            } else
+                              validateGiaText = '';
+                          });
+                          report_number = val;
+                        },
+                      ),
+                      // ignore: sdk_version_ui_as_code
+                    ])),
+                Container(
+                  width: (MediaQuery.of(context).size.width) * 0.3,
+                  height: 50,
+                  padding: EdgeInsets.only(right: 10.0, top: 5.0),
+                  child: ElevatedButton(
+                      child: Text('GIA Look Up'),
+                      onPressed: () {
+                        _getGIAReport();
+                      }),
+                )
+              ],
+            ),
+          ),
+          isViewGIA == true
+              ? Query(
+                  options: QueryOptions(
+                      documentNode: gql(_query),
+                      variables: {'reportNumber': report_number}),
+                  builder: (
+                    QueryResult result, {
+                    VoidCallback refetch,
+                    FetchMore fetchMore,
+                  }) {
+                    if (result.loading) {
+                      return Container(
+                          child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                              strokeWidth: 1,
+                            ),
+                          ],
+                        ),
+                      ));
+                    }
 
-                            return Container(
+                    if (result.hasException ||
+                        result.data == null ||
+                        result.data['getReport'] == null) {
+                      if (reports.length > 0)
+                        return Container(
+                            //margin: EdgeInsets.all(10.0),
+                            child: Column(
+                          children: [
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                margin: EdgeInsets.only(left: 20, top: 5),
+                                child: Text(
+                                  validateGiaText,
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.red),
+                                )),
+                            Container(
                                 height:
-                                    (MediaQuery.of(context).size.height - 170),
-                                margin: EdgeInsets.all(10.0),
+                                    (MediaQuery.of(context).size.height - 220),
                                 child: ListView.separated(
                                   separatorBuilder: (context, index) => Divider(
                                     color: Colors.white24,
@@ -367,64 +299,175 @@ class ReportScreenState extends State<ReportScreen> {
                                   itemCount: reports.length,
                                   itemBuilder: (context, index) =>
                                       _buildReportItem(reports[index]),
-                                ));
-                          }
-                        },
-                      )
-                    : reports.length > 0
-                        ? Container(
-                            height: (MediaQuery.of(context).size.height - 220),
-                            margin: EdgeInsets.all(10.0),
-                            child: ListView.separated(
-                              separatorBuilder: (context, index) => Divider(
-                                color: Colors.white24,
+                                )),
+                          ],
+                        ));
+                      else
+                        return Container(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: EdgeInsets.only(left: 20, top: 5),
+                                  child: Text(
+                                    validateGiaText,
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.red),
+                                  )),
+                              Container(
+                                margin: EdgeInsets.only(top: 50.0),
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                    "assets/images/binoculars.png",
+                                    width: 150,
+                                    height: 150),
                               ),
-                              itemCount: reports.length,
-                              itemBuilder: (context, index) =>
-                                  _buildReportItem(reports[index]),
-                            ))
-                        : Container(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(top: 50.0),
-                                  alignment: Alignment.center,
-                                  child: Image.asset(
-                                      "assets/images/binoculars.png",
-                                      width: 150,
-                                      height: 150),
+                              Container(
+                                margin: EdgeInsets.only(top: 20.0),
+                                child: Text(
+                                  "Find a stone!",
+                                  style: TextStyle(
+                                      letterSpacing: 5.0,
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 20.0),
-                                  child: Text(
-                                    "Find a stone!",
-                                    style: TextStyle(
-                                        letterSpacing: 5.0,
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 40.0),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Search for a stone and it will show up here.",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      letterSpacing: 1.5,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 40.0),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "Search for a stone and it will show up here.",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        letterSpacing: 1.5,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white),
-                                  ),
-                                )
-                              ],
+                              )
+                            ],
+                          ),
+                        );
+                    } else {
+                      if (isEnableAddGia)
+                        addReportToSql(result.data['getReport']);
+
+                      return Container(
+                          child: Column(
+                        children: [
+                          Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(left: 20, top: 5),
+                              child: Text(
+                                validateGiaText,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.red),
+                              )),
+                          Container(
+                              height:
+                                  (MediaQuery.of(context).size.height - 170),
+                              child: ListView.separated(
+                                separatorBuilder: (context, index) => Divider(
+                                  color: Colors.white24,
+                                ),
+                                itemCount: reports.length,
+                                itemBuilder: (context, index) =>
+                                    _buildReportItem(reports[index]),
+                              ))
+                        ],
+                      ));
+                    }
+                  },
+                )
+              : reports.length > 0
+                  ? Container(
+                      //margin: EdgeInsets.all(10.0),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(left: 20, top: 5),
+                              child: Text(
+                                '$validateGiaText',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.red),
+                              )),
+                          Container(
+                              height:
+                                  (MediaQuery.of(context).size.height - 220),
+                              child: ListView.separated(
+                                separatorBuilder: (context, index) => Divider(
+                                  color: Colors.white24,
+                                ),
+                                itemCount: reports.length,
+                                itemBuilder: (context, index) =>
+                                    _buildReportItem(reports[index]),
+                              ))
+                        ],
+                      ),
+                    )
+                  : Container(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(left: 20, top: 5),
+                              child: Text(
+                                '$validateGiaText',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.red),
+                              )),
+                          Container(
+                            margin: EdgeInsets.only(top: 50.0),
+                            alignment: Alignment.center,
+                            child: Image.asset("assets/images/binoculars.png",
+                                width: 150, height: 150),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 20.0),
+                            child: Text(
+                              "Find a stone!",
+                              style: TextStyle(
+                                  letterSpacing: 5.0,
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 40.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Search for a stone and it will show up here.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  letterSpacing: 1.5,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
                             ),
                           )
-              ],
-            ),
-          ));
+                        ],
+                      ),
+                    )
+        ],
+      ),
+    ));
   }
 
   Widget _buildReportItem(report) {

@@ -14,7 +14,7 @@ class GIAInput {
   String tablePct;
   int type;
   String gianumber;
-
+  String grade;
   GIAInput({
     this.weight,
     this.colour,
@@ -31,6 +31,7 @@ class GIAInput {
     this.tablePct,
     this.type,
     this.gianumber,
+    this.grade,
   });
   // factory GIAInput.fromJson(Map<String, dynamic> json) => GIAInput(
   //   dish_id: json["dish_id"] == null? null: json["dish_id"],
@@ -62,5 +63,6 @@ class GIAInput {
         'table_pct': tablePct,
         'type': type,
         'gianumber': gianumber,
+        'grade': grade,
       };
 }

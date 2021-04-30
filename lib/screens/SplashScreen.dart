@@ -30,7 +30,8 @@ class SplashState extends State<SplashScreen> {
 
   route() {
       Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (context) => ReportScreen()
+          builder: (context) => ReportScreen(),
+          maintainState: false
         )
       ); 
     }

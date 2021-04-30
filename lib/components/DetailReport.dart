@@ -49,7 +49,9 @@ class DetailReportState extends State<DetailReport> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           new ListTile(
-            title: Text(widget.report.grade),
+            title: widget.report.grade == null ?
+            Text(''):
+            Text(widget.report.grade)
           ),
         ],
       ),
@@ -146,6 +148,7 @@ class DetailReportState extends State<DetailReport> {
                 ),
                 trailing: Row(
                   children: <Widget>[
+
                     Text(
                       widget.report.totaldepth,
                       style: TextStyle(
@@ -162,6 +165,8 @@ class DetailReportState extends State<DetailReport> {
                 ),
                 trailing: Row(
                   children: <Widget>[
+                    widget.report.crownheight == 'null' ?
+                    Text(''):
                     Text(
                       widget.report.crownheight.toString(),
                       style: TextStyle(
@@ -178,6 +183,8 @@ class DetailReportState extends State<DetailReport> {
                 ),
                 trailing: Row(
                   children: <Widget>[
+                    widget.report.crownangle == 'null' ?
+                    Text(''):
                     Text(
                       widget.report.crownangle.toString(),
                       style: TextStyle(
@@ -194,6 +201,8 @@ class DetailReportState extends State<DetailReport> {
                 ),
                 trailing: Row(
                   children: <Widget>[
+                    widget.report.pavilliondepth == 'null' ?
+                    Text(''):
                     Text(
                       widget.report.pavilliondepth.toString(),
                       style: TextStyle(
@@ -210,11 +219,13 @@ class DetailReportState extends State<DetailReport> {
                 ),
                 trailing: Row(
                   children: <Widget>[
+                    widget.report.pavillionangle == 'null' ?
+                    Text(''):
                     Text(
                       widget.report.pavillionangle.toString(),
                       style: TextStyle(
                           fontWeight: FontWeight.w300, color: Colors.grey),
-                    ),
+                    )                    
                   ],
                   mainAxisSize: MainAxisSize.min,
                 ),
@@ -226,6 +237,8 @@ class DetailReportState extends State<DetailReport> {
                 ),
                 trailing: Row(
                   children: <Widget>[
+                    widget.report.gridlethickness == 'null' ?
+                    Text(''):
                     Text(
                       widget.report.gridlethickness.toString(),
                       style: TextStyle(
@@ -242,6 +255,8 @@ class DetailReportState extends State<DetailReport> {
                 ),
                 trailing: Row(
                   children: <Widget>[
+                    widget.report.culet == 'null' ?
+                    Text(''):
                     Text(
                       widget.report.culet.toString(),
                       style: TextStyle(
@@ -258,6 +273,8 @@ class DetailReportState extends State<DetailReport> {
                 ),
                 trailing: Row(
                   children: <Widget>[
+                    widget.report.lowerhavels == 'null' ?
+                    Text('') :
                     Text(
                       widget.report.lowerhavels.toString(),
                       style: TextStyle(
