@@ -1354,7 +1354,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
       print(enteredVal.totaldepth);
       Scaffold.of(context).removeCurrentSnackBar();
 
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => DetailReportScreen(report: enteredVal)),

@@ -22,22 +22,6 @@ class DetailReportScreen extends StatelessWidget {
               );
             },
           ),
-        // actions: <Widget>[
-        //   Padding(
-        //     padding: EdgeInsets.only(right: 20.0),
-        //     child: GestureDetector(
-        //       onTap: () {},
-        //       child: Icon(Icons.share),
-        //     ),
-        //   ),
-        //   Padding(
-        //     padding: EdgeInsets.only(right: 20.0),
-        //     child: GestureDetector(
-        //       onTap: () {},
-        //       child: Icon(Icons.star_border),
-        //     ),
-        //   ),
-        // ],
       ),
       body:  DetailReport(report: this.report),
     );

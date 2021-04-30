@@ -82,9 +82,9 @@ class ReportScreenState extends State<ReportScreen> {
 ''';
   @override
   void initState() {
-    _getReports();
     //FlutterMobileVision.start().then((value) => setState(() {}));
     super.initState();
+    _getReports();
   }
 
   @override
@@ -128,12 +128,16 @@ class ReportScreenState extends State<ReportScreen> {
 
   _getReports() {
     DBProvider.db.getAllReports().then((value) => {
-          setState(() {
-            //isLoadingReports = false;
-            reports = value;
-            isViewGIA = false;
-          })
-        });
+          // ignore: sdk_version_ui_as_code
+      if (this.mounted)
+      {
+        setState(() {
+          //isLoadingReports = false;
+          reports = value;
+          isViewGIA = false;
+        })
+      }
+    });
   }
 
   _getGIAReport() {
@@ -222,7 +226,8 @@ class ReportScreenState extends State<ReportScreen> {
                         onChanged: (val) {
                           setState(() {
                             if (val.length != 10) {
-                              validateGiaText = 'Report numner must be 10 digits';
+                              validateGiaText =
+                                  'Report numner must be 10 digits';
                               isViewGIA = false;
                             } else
                               validateGiaText = '';
