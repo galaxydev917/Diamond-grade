@@ -222,7 +222,7 @@ class ReportScreenState extends State<ReportScreen> {
                         onChanged: (val) {
                           setState(() {
                             if (val.length != 10) {
-                              validateGiaText = 'Report numnere must be 10 digits';
+                              validateGiaText = 'Report numner must be 10 digits';
                               isViewGIA = false;
                             } else
                               validateGiaText = '';
