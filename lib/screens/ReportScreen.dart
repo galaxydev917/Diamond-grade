@@ -243,6 +243,12 @@ class ReportScreenState extends State<ReportScreen> {
                   padding: EdgeInsets.only(right: 10.0, top: 5.0),
                   child: ElevatedButton(
                       child: Text('GIA Look Up'),
+	
+                      style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                        ),
+                      ),  
                       onPressed: () {
                         _getGIAReport();
                       }),
