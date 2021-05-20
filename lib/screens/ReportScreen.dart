@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sorts_app/screens/manualSearchScreen.dart';
@@ -9,6 +6,7 @@ import 'package:sorts_app/service/Database.dart';
 import 'package:sorts_app/screens/DetailReportScreen.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sorts_app/model/gia_input.dart';
+import 'package:sorts_app/model/static.dart';
 
 class ReportScreen extends StatefulWidget {
   @override
@@ -16,10 +14,71 @@ class ReportScreen extends StatefulWidget {
 }
 
 class ReportScreenState extends State<ReportScreen> {
+  var staticVariable = {
+    "table_pct": [
+      {"min": "52.4", "max": "57.5", "result": "0", "grade": "+++EX"},
+      {"min": "51.4", "max": "59.5", "result": "1", "grade": "++EX"},
+      {"min": "51.4", "max": "61.5", "result": "2", "grade": "+EX"},
+      {"min": "50.4", "max": "62.0", "result": "3", "grade": "EX"},
+      {"min": "0", "max": "50.4", "result": "4", "grade": "VG OR LOWER"},
+      {"min": "62", "max": "1000", "result": "4", "grade": "VG OR LOWER"},
+    ],
+    "crown_height": [
+      {"min": "14.5", "max": "16.5", "result": "0", "grade": "+++EX"},
+      {"min": "13.5", "max": "16.7", "result": "1", "grade": "++EX"},
+      {"min": "13.0", "max": "16.9", "result": "2", "grade": "+EX"},
+      {"min": "12.5", "max": "17", "result": "3", "grade": "EX"},
+      {"min": "0.0", "max": "12.5", "result": "4", "grade": "VG OR LOWER"},
+      {"min": "17.0", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
+    ],
+    "crown_angle": [
+      {"min": "33.7", "max": "35.0", "result": "0", "grade": "+++EX"},
+      {"min": "32.7", "max": "35.5", "result": "1", "grade": "++EX"},
+      {"min": "32.1", "max": "36.0", "result": "2", "grade": "+EX"},
+      {"min": "31.5", "max": "36.5", "result": "3", "grade": "EX"},
+      {"min": "0.0", "max": "31.5", "result": "4", "grade": "VERY GOOD"},
+      {"min": "36.5", "max": "1000.0", "result": "4", "grade": "VERY GOOD"}
+    ],
+    "lower_half": [
+      {"min": "70", "max": "85", "result": "0", "grade": "+++EX"},
+      {"min": "0", "max": "70.0", "result": "4", "grade": "VG OR LOWER"},
+      {"min": "85", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
+    ],
+    "pavilion_depth": [
+      {"min": "42.2", "max": "43.8", "result": "0", "grade": "+++EX"},
+      {"min": "42.2", "max": "44.3", "result": "1", "grade": "++EX"},
+      {"min": "41.8", "max": "44.8", "result": "2", "grade": "+EX"},
+      {"min": "0.0", "max": "41.7", "result": "4", "grade": "VG OR LOWER"},
+      {"min": "44.8", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
+    ],
+    "pavilion_angle": [
+      {"min": "40.2", "max": "41.5", "result": "0", "grade": "+++EX"},
+      {"min": "40.2", "max": "41.5", "result": "1", "grade": "++EX"},
+      {"min": "40.3", "max": "41.7", "result": "2", "grade": "+EX"},
+      {"min": "40.6", "max": "41.8", "result": "3", "grade": "EX"},
+      {"min": "0.0", "max": "40.6", "result": "4", "grade": "VG OR LOWER"},
+      {"min": "41.8", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
+    ],
+    "girdle": [
+      {"min": "1.5", "max": "4.5", "result": "0", "grade": "+++EX"},
+      {"min": "0.0", "max": "1.5", "result": "4", "grade": "VG OR LOWER"},
+      {"min": "4.5", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
+    ],
+    "depth_pct": [
+      {"min": "45", "max": "65", "result": "0", "grade": "+++EX"},
+      {"min": "0", "max": "45", "result": "4", "grade": "VG OR LOWER"},
+      {"min": "65", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
+    ]
+  };
+  List gradeList = [];
+
   final _input = GIAInput();
 
   // ignore: deprecated_member_use
   var reports = new List<Report>();
+  // ignore: deprecated_member_use
+  var reportByNumber = new Report();
+
   String code = "";
   String validateGiaText = "";
   // ignore: non_constant_identifier_names
@@ -128,16 +187,15 @@ class ReportScreenState extends State<ReportScreen> {
 
   _getReports() {
     DBProvider.db.getAllReports().then((value) => {
-          // ignore: sdk_version_ui_as_code
-      if (this.mounted)
-      {
-        setState(() {
-          //isLoadingReports = false;
-          reports = value;
-          isViewGIA = false;
-        })
-      }
-    });
+          if (this.mounted)
+            {
+              setState(() {
+                //isLoadingReports = false;
+                reports = value;
+                isViewGIA = false;
+              })
+            }
+        });
   }
 
   _getGIAReport() {
@@ -148,10 +206,26 @@ class ReportScreenState extends State<ReportScreen> {
       return;
     }
 
-    isEnableAddGia = true;
-    setState(() {
-      isViewGIA = true;
-    });
+    DBProvider.db.getReportByNumber(report_number).then((value) => {
+          // ignore: sdk_version_ui_as_code
+          if (value.length > 0)
+            {
+              reportByNumber = value[0],
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        DetailReportScreen(report: reportByNumber)),
+              ),
+            }
+          else
+            {
+              isEnableAddGia = true,
+              setState(() {
+                isViewGIA = true;
+              })
+            }
+        });
   }
 
   addReportToSql(result) async {
@@ -169,7 +243,7 @@ class ReportScreenState extends State<ReportScreen> {
     _input.crownHeight = result['results']['proportions']['crown_height'];
     _input.culet = result['results']['proportions']['culet'];
     _input.depthPct = result['results']['proportions']['depth_pct'];
-    _input.girdle = result['results']['proportions']['girdle'];
+     _input.girdle = result['results']['proportions']['girdle'];
     _input.lowerHalf = result['results']['proportions']['lower_half'];
     _input.pavilionAngle = result['results']['proportions']['pavilion_angle'];
     _input.pavilionDepth = result['results']['proportions']['pavilion_depth'];
@@ -177,9 +251,52 @@ class ReportScreenState extends State<ReportScreen> {
     _input.tablePct = result['results']['proportions']['table_pct'];
     _input.type = 1;
     _input.gianumber = report_number;
-    _input.grade = result['results']['cut_grade'];
+
+    var doubleRE = RegExp(r"-?(?:\d*\.)?\d+(?:[eE][+-]?\d+)?");
+    var girdleNumbers = doubleRE.allMatches(_input.girdle).map((m) => double.parse(m[0])).toList();
+
+
+    var currentValList = [
+      {'key': 'table_pct', 'value': double.parse(_input.tablePct)},
+      {'key': 'crown_height', 'value': double.parse(_input.crownHeight)},
+      {'key': 'crown_angle', 'value': double.parse(_input.crownAngle)},
+      {'key': 'lower_half', 'value': double.parse(_input.lowerHalf)},
+      {'key': 'pavilion_depth', 'value': double.parse(_input.pavilionDepth)},
+      {'key': 'pavilion_angle', 'value': double.parse(_input.pavilionAngle)},
+      {'key': 'girdle', 'value': girdleNumbers[0]},
+      {'key': 'depth_pct', 'value': double.parse(_input.depthPct)},
+    ];
+
+    for (var i = 0; i < currentValList.length; i++) {
+      var grade = await getGrade(currentValList[i]);
+
+      gradeList.add(grade);
+    }
+    gradeList..sort((a, b) => b.result.compareTo(a.result));
+
+     _input.girdle = girdleNumbers[0].toString();
+    _input.grade = gradeList[0].grade;
+
     await DBProvider.db.addGIAReport(_input.toJson());
     _getReports();
+  }
+
+  Future<dynamic> getGrade(currentVal) async {
+    var itemKey = currentVal['key'];
+    var itemVal = currentVal['value'];
+
+    List<dynamic> staticValueList = staticVariable[itemKey];
+    List<StaticItem> staticItemList = staticValueList
+        .map((dynamic item) => StaticItem.fromJson(item))
+        .toList();
+    staticItemList..sort((a, b) => a.result.compareTo(b.result));
+
+    for (var i = 0; i < staticItemList.length; i++) {
+      if (itemVal >= double.parse(staticItemList[i].min) &&
+          itemVal <= double.parse(staticItemList[i].max)) {
+        return (staticItemList[i]);
+      }
+    }
   }
 
   Widget _buildReportsList() {
@@ -243,12 +360,11 @@ class ReportScreenState extends State<ReportScreen> {
                   padding: EdgeInsets.only(right: 10.0, top: 5.0),
                   child: ElevatedButton(
                       child: Text('GIA Look Up'),
-	
                       style: ElevatedButton.styleFrom(
                         textStyle: TextStyle(
-                            fontSize: 12,
+                          fontSize: 12,
                         ),
-                      ),  
+                      ),
                       onPressed: () {
                         _getGIAReport();
                       }),

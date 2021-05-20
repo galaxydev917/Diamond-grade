@@ -48,11 +48,35 @@ class DetailReportState extends State<DetailReport> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          new ListTile(
-            title: widget.report.grade == null ?
-            Text(''):
-            Text(widget.report.grade)
+          widget.report.grade == null ?
+          Container():
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(left: 20, top: 20, bottom: 20),
+            child: Text(
+              widget.report.grade,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w500,
+              color: Colors.white),
+            )
           ),
+          widget.report.gianumber == '' ?
+          Container():
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(left: 20, bottom: 20),
+            child: Text(
+              'GIA: ' + widget.report.gianumber,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w500,
+              color: Colors.white60),
+            )
+          )          
+    
         ],
       ),
     );

@@ -2,44 +2,44 @@ import 'package:flutter/foundation.dart';
 
 class Report {
   final int id;
-  final String grade;
-  final String createdAt;
-  final String colour;
-  final String weight;
-  final String clarity;
-  final String tablepct;
-  final String totaldepth;
-  final String crownheight;
-  final String crownangle;
-  final String pavilliondepth;
-  final String pavillionangle;
-  final String starfacelength;
-  final String lowerhavels;  
-  final String gridlethickness;
-  final String culet;
-  final int type;
-  final String gianumber;
+  String grade;
+  String createdAt;
+  String colour;
+  String weight;
+  String clarity;
+  String tablepct;
+  String totaldepth;
+  String crownheight;
+  String crownangle;
+  String pavilliondepth;
+  String pavillionangle;
+  String starfacelength;
+  String lowerhavels;  
+  String gridlethickness;
+  String culet;
+  int type;
+  String gianumber;
   
 
   Report({
-    @required this.id,
-    @required this.grade,
-    @required this.colour,
-    @required this.weight,
-    @required this.clarity,
-    @required this.createdAt,
-    @required this.tablepct,
-    @required this.totaldepth,
-    @required this.crownheight,
-    @required this.crownangle,
-    @required this.pavilliondepth,
-    @required this.pavillionangle,
-    @required this.starfacelength,
-    @required this.lowerhavels,  
-    @required this.gridlethickness,
-    @required this.culet,  
-    @required this.type,
-    @required this.gianumber,
+     this.id,
+     this.grade,
+     this.colour,
+     this.weight,
+     this.clarity,
+     this.createdAt,
+     this.tablepct,
+     this.totaldepth,
+     this.crownheight,
+     this.crownangle,
+     this.pavilliondepth,
+     this.pavillionangle,
+     this.starfacelength,
+     this.lowerhavels,  
+     this.gridlethickness,
+     this.culet,  
+     this.type,
+     this.gianumber,
   
   });
 
@@ -47,7 +47,7 @@ class Report {
     return Report(
       id: json['id'],
       grade: json['grade'],
-      colour: json['colour'],
+      colour: json['colour'].toString(),
       weight: json['weight'].toString(),
       clarity: json['clarity'] as String,
       createdAt: json['createdAt'] as String,

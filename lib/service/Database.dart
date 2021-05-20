@@ -60,6 +60,16 @@ class DBProvider {
     return reports;
   }
 
+  Future<List<Report>> getReportByNumber(reportNumber) async {
+    final db = await database;
+    var res =
+        await db.rawQuery("SELECT * FROM tbl_gradehistory WHERE gianumber = '" + reportNumber + "' LIMIT 1");
+    List<Report> reports =
+        res.map((dynamic report) => Report.fromJson(report)).toList();
+
+    return reports;
+  }
+
   addReport(report) async {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('d MMM yy H:mm').format(now);
