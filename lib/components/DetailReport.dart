@@ -62,7 +62,7 @@ class DetailReportState extends State<DetailReport> {
               color: Colors.white),
             )
           ),
-          widget.report.gianumber == '' ?
+          widget.report.gianumber == '' || widget.report.gianumber == 'null' ?
           Container():
           Container(
             alignment: Alignment.centerLeft,

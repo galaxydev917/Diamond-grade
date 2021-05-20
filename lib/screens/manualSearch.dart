@@ -1351,7 +1351,6 @@ class ManualSearchFormState extends State<ManualSearchForm> {
       reportData['grade'] = gradeList[0].grade;
 
       Report enteredVal = await _input.submit(reportData);
-      print(enteredVal.totaldepth);
       Scaffold.of(context).removeCurrentSnackBar();
 
       Navigator.pushReplacement(

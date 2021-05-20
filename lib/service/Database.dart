@@ -75,8 +75,8 @@ class DBProvider {
     String formattedDate = DateFormat('d MMM yy H:mm').format(now);
     final db = await database;
     var raw = await db.rawInsert(
-        "INSERT Into tbl_gradehistory (createdAt, weight, colour, clarity, table_pct, depth_pct, crown_height, crown_angle, pavilion_depth, pavilion_angle, starface_length, lower_half, girdle, culet, grade)"
-        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT Into tbl_gradehistory (createdAt, weight, colour, clarity, table_pct, depth_pct, crown_height, crown_angle, pavilion_depth, pavilion_angle, starface_length, lower_half, girdle, culet, grade, type, gianumber)"
+        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
           formattedDate,
           report['weight'],
@@ -92,7 +92,9 @@ class DBProvider {
           report['lower_half'],
           report['girdle'],
           report['culet'],
-          report['grade']
+          report['grade'],
+          0,
+          ''
         ]);
     return raw;
   }

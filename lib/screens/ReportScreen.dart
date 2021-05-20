@@ -236,14 +236,24 @@ class ReportScreenState extends State<ReportScreen> {
       return;
     }
     isEnableAddGia = false;
+
+    var weightRE = RegExp(r"-?(?:\d*\.)?\d+(?:[eE][+-]?\d+)?");
+
     _input.weight = result['results']['carat_weight'];
+    var weight = weightRE
+        .allMatches(_input.weight)
+        .map((m) => double.parse(m[0]))
+        .toList();
+        
+    _input.weight = weight[0].toString();
+
     _input.clarity = result['results']['clarity_grade'];
     _input.colour = result['results']['color_grade'];
     _input.crownAngle = result['results']['proportions']['crown_angle'];
     _input.crownHeight = result['results']['proportions']['crown_height'];
     _input.culet = result['results']['proportions']['culet'];
     _input.depthPct = result['results']['proportions']['depth_pct'];
-     _input.girdle = result['results']['proportions']['girdle'];
+    _input.girdle = result['results']['proportions']['girdle'];
     _input.lowerHalf = result['results']['proportions']['lower_half'];
     _input.pavilionAngle = result['results']['proportions']['pavilion_angle'];
     _input.pavilionDepth = result['results']['proportions']['pavilion_depth'];
@@ -253,8 +263,10 @@ class ReportScreenState extends State<ReportScreen> {
     _input.gianumber = report_number;
 
     var doubleRE = RegExp(r"-?(?:\d*\.)?\d+(?:[eE][+-]?\d+)?");
-    var girdleNumbers = doubleRE.allMatches(_input.girdle).map((m) => double.parse(m[0])).toList();
-
+    var girdleNumbers = doubleRE
+        .allMatches(_input.girdle)
+        .map((m) => double.parse(m[0]))
+        .toList();
 
     var currentValList = [
       {'key': 'table_pct', 'value': double.parse(_input.tablePct)},
@@ -274,7 +286,7 @@ class ReportScreenState extends State<ReportScreen> {
     }
     gradeList..sort((a, b) => b.result.compareTo(a.result));
 
-     _input.girdle = girdleNumbers[0].toString();
+    _input.girdle = girdleNumbers[0].toString();
     _input.grade = gradeList[0].grade;
 
     await DBProvider.db.addGIAReport(_input.toJson());
@@ -652,7 +664,7 @@ class ReportScreenState extends State<ReportScreen> {
         Container(
             margin: EdgeInsets.only(right: 10),
             child: Text(
-              report.weight + 'ct' ?? '',
+              report.weight + ' ct' ?? '',
               style: TextStyle(fontSize: 14),
             )),
         Container(
