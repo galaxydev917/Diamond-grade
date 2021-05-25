@@ -30,58 +30,60 @@ class ManualSearchFormState extends State<ManualSearchForm> {
   String textHolder = '';
   String _colourVal = 'None';
 
+
+
   var staticVariable = {
     "table_pct": [
-      {"min": "52.4", "max": "57.5", "result": "0", "grade": "+++EX"},
-      {"min": "51.4", "max": "59.5", "result": "1", "grade": "++EX"},
-      {"min": "51.4", "max": "61.5", "result": "2", "grade": "+EX"},
-      {"min": "50.4", "max": "62.0", "result": "3", "grade": "EX"},
+      {"min": "52.4", "max": "57.5", "result": "0", "grade": "Excellent +++"},
+      {"min": "51.4", "max": "59.5", "result": "1", "grade": "Excellent ++"},
+      {"min": "51.4", "max": "61.5", "result": "2", "grade": "Excellent +"},
+      {"min": "50.4", "max": "62.0", "result": "3", "grade": "Excellent"},
       {"min": "0", "max": "50.4", "result": "4", "grade": "VG OR LOWER"},
       {"min": "62", "max": "1000", "result": "4", "grade": "VG OR LOWER"},
     ],
     "crown_height": [
-      {"min": "14.5", "max": "16.5", "result": "0", "grade": "+++EX"},
-      {"min": "13.5", "max": "16.7", "result": "1", "grade": "++EX"},
-      {"min": "13.0", "max": "16.9", "result": "2", "grade": "+EX"},
-      {"min": "12.5", "max": "17", "result": "3", "grade": "EX"},
+      {"min": "14.5", "max": "16.5", "result": "0", "grade": "Excellent +++"},
+      {"min": "13.5", "max": "16.7", "result": "1", "grade": "Excellent ++"},
+      {"min": "13.0", "max": "16.9", "result": "2", "grade": "Excellent +"},
+      {"min": "12.5", "max": "17", "result": "3", "grade": "Excellent"},
       {"min": "0.0", "max": "12.5", "result": "4", "grade": "VG OR LOWER"},
       {"min": "17.0", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ],
     "crown_angle": [
-      {"min": "33.7", "max": "35.0", "result": "0", "grade": "+++EX"},
-      {"min": "32.7", "max": "35.5", "result": "1", "grade": "++EX"},
-      {"min": "32.1", "max": "36.0", "result": "2", "grade": "+EX"},
-      {"min": "31.5", "max": "36.5", "result": "3", "grade": "EX"},
+      {"min": "33.7", "max": "35.0", "result": "0", "grade": "Excellent +++"},
+      {"min": "32.7", "max": "35.5", "result": "1", "grade": "Excellent ++"},
+      {"min": "32.1", "max": "36.0", "result": "2", "grade": "Excellent +"},
+      {"min": "31.5", "max": "36.5", "result": "3", "grade": "Excellent"},
       {"min": "0.0", "max": "31.5", "result": "4", "grade": "VERY GOOD"},
       {"min": "36.5", "max": "1000.0", "result": "4", "grade": "VERY GOOD"}
     ],
     "lower_half": [
-      {"min": "70", "max": "85", "result": "0", "grade": "+++EX"},
+      {"min": "70", "max": "85", "result": "0", "grade": "Excellent +++"},
       {"min": "0", "max": "70.0", "result": "4", "grade": "VG OR LOWER"},
       {"min": "85", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ],
     "pavilion_depth": [
-      {"min": "42.2", "max": "43.8", "result": "0", "grade": "+++EX"},
-      {"min": "42.2", "max": "44.3", "result": "1", "grade": "++EX"},
-      {"min": "41.8", "max": "44.8", "result": "2", "grade": "+EX"},
+      {"min": "42.2", "max": "43.8", "result": "0", "grade": "Excellent +++"},
+      {"min": "42.2", "max": "44.3", "result": "1", "grade": "Excellent ++"},
+      {"min": "41.8", "max": "44.8", "result": "2", "grade": "Excellent +"},
       {"min": "0.0", "max": "41.7", "result": "4", "grade": "VG OR LOWER"},
       {"min": "44.8", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ],
     "pavilion_angle": [
-      {"min": "40.2", "max": "41.5", "result": "0", "grade": "+++EX"},
-      {"min": "40.2", "max": "41.5", "result": "1", "grade": "++EX"},
-      {"min": "40.3", "max": "41.7", "result": "2", "grade": "+EX"},
-      {"min": "40.6", "max": "41.8", "result": "3", "grade": "EX"},
+      {"min": "40.2", "max": "41.5", "result": "0", "grade": "Excellent +++"},
+      {"min": "40.2", "max": "41.5", "result": "1", "grade": "Excellent ++"},
+      {"min": "40.3", "max": "41.7", "result": "2", "grade": "Excellent +"},
+      {"min": "40.6", "max": "41.8", "result": "3", "grade": "Excellent"},
       {"min": "0.0", "max": "40.6", "result": "4", "grade": "VG OR LOWER"},
       {"min": "41.8", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ],
     "girdle": [
-      {"min": "1.5", "max": "4.5", "result": "0", "grade": "+++EX"},
+      {"min": "1.5", "max": "4.5", "result": "0", "grade": "Excellent +++"},
       {"min": "0.0", "max": "1.5", "result": "4", "grade": "VG OR LOWER"},
       {"min": "4.5", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ],
     "depth_pct": [
-      {"min": "45", "max": "65", "result": "0", "grade": "+++EX"},
+      {"min": "45", "max": "65", "result": "0", "grade": "Excellent +++"},
       {"min": "0", "max": "45", "result": "4", "grade": "VG OR LOWER"},
       {"min": "65", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ]
@@ -203,7 +205,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                   ],
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //keyboardType: TextInputType.number,
@@ -498,7 +500,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.only(left: 20.0),
               child: Text(
-                "Table %s",
+                "Table %",
                 style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w500,
@@ -513,7 +515,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                   ],
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //keyboardType: TextInputType.number,
@@ -604,7 +606,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                   ],
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //keyboardType: TextInputType.number,
@@ -685,7 +687,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                   ],
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //keyboardType: TextInputType.number,
@@ -761,7 +763,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(left: 20),
               child: Text(
-                "Crown Angle %",
+                "Crown Angle °",
                 style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w500,
@@ -776,7 +778,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                   ],
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //keyboardType: TextInputType.number,
@@ -857,7 +859,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                   ],
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //keyboardType: TextInputType.number,
@@ -934,7 +936,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(left: 20),
               child: Text(
-                "Pavillion Angle *",
+                "Pavillion Angle °",
                 style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w500,
@@ -949,7 +951,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                   ],
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //keyboardType: TextInputType.number,
@@ -1031,7 +1033,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                   ],
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //keyboardType: TextInputType.number,
@@ -1123,7 +1125,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                   ],
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //keyboardType: TextInputType.number,
@@ -1214,7 +1216,7 @@ class ManualSearchFormState extends State<ManualSearchForm> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                   ],
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //keyboardType: TextInputType.number,

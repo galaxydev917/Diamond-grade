@@ -109,7 +109,7 @@ class DetailReportState extends State<DetailReport> {
                 trailing: Row(
                   children: <Widget>[
                     Text(
-                      widget.report.weight.toString(), 
+                      double.parse(widget.report.weight).toStringAsFixed(2), 
                       style: TextStyle(
                           fontWeight: FontWeight.w300, color: Colors.grey),
                     ),

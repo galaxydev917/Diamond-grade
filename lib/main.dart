@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:sorts_app/screens/SplashScreen.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'service/graphqlConf.dart';
+
+// void main() => runApp(
+//       GraphQLProvider(
+//         client: graphQLConfiguration.client,
+//         child: CacheProvider(child: SortsApp()),
+//       ),
+//     );
+  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 
 void main()  {
-  WidgetsFlutterBinding.ensureInitialized();
-  final HttpLink httpLink = HttpLink(
-    uri: 'https://api.reportresults.gia.edu',
-  );
 
-  final AuthLink authLink = AuthLink(
-    getToken: () => '81323e54-3793-47ce-a2b6-cba1ba5d4fcb',
-    // getToken: () => '36965900-7504-4e64-ba0b-263f66e4fd64',
-  );
-  Link link = authLink.concat(httpLink);
+   WidgetsFlutterBinding.ensureInitialized();
+  // final HttpLink httpLink = HttpLink(
+  //   uri: 'https://api.reportresults.gia.edu',
+  // );
 
-  ValueNotifier<GraphQLClient> client = ValueNotifier(
-    GraphQLClient(
-      cache: InMemoryCache(),
-      link: link,
-    ),
-  );
-  runApp(SortsApp(client: client));
+  // final AuthLink authLink = AuthLink(
+  //   getToken: () => '81323e54-3793-47ce-a2b6-cba1ba5d4fcb',
+  //   // getToken: () => '36965900-7504-4e64-ba0b-263f66e4fd64',
+  // );
+  // Link link = authLink.concat(httpLink);
+
+  // ValueNotifier<GraphQLClient> client = ValueNotifier(
+  //   GraphQLClient(
+  //     cache: InMemoryCache(),
+  //     link: link,
+  //   ),
+  // );
+  runApp(SortsApp(client: graphQLConfiguration.client));
 }
 
 class SortsApp extends StatelessWidget {

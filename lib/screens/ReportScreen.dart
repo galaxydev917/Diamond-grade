@@ -7,6 +7,7 @@ import 'package:sorts_app/screens/DetailReportScreen.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sorts_app/model/gia_input.dart';
 import 'package:sorts_app/model/static.dart';
+import '../service/graphqlConf.dart';
 
 class ReportScreen extends StatefulWidget {
   @override
@@ -14,58 +15,59 @@ class ReportScreen extends StatefulWidget {
 }
 
 class ReportScreenState extends State<ReportScreen> {
+  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   var staticVariable = {
     "table_pct": [
-      {"min": "52.4", "max": "57.5", "result": "0", "grade": "+++EX"},
-      {"min": "51.4", "max": "59.5", "result": "1", "grade": "++EX"},
-      {"min": "51.4", "max": "61.5", "result": "2", "grade": "+EX"},
-      {"min": "50.4", "max": "62.0", "result": "3", "grade": "EX"},
+      {"min": "52.4", "max": "57.5", "result": "0", "grade": "Excellent +++"},
+      {"min": "51.4", "max": "59.5", "result": "1", "grade": "Excellent ++"},
+      {"min": "51.4", "max": "61.5", "result": "2", "grade": "Excellent +"},
+      {"min": "50.4", "max": "62.0", "result": "3", "grade": "Excellent"},
       {"min": "0", "max": "50.4", "result": "4", "grade": "VG OR LOWER"},
       {"min": "62", "max": "1000", "result": "4", "grade": "VG OR LOWER"},
     ],
     "crown_height": [
-      {"min": "14.5", "max": "16.5", "result": "0", "grade": "+++EX"},
-      {"min": "13.5", "max": "16.7", "result": "1", "grade": "++EX"},
-      {"min": "13.0", "max": "16.9", "result": "2", "grade": "+EX"},
-      {"min": "12.5", "max": "17", "result": "3", "grade": "EX"},
+      {"min": "14.5", "max": "16.5", "result": "0", "grade": "Excellent +++"},
+      {"min": "13.5", "max": "16.7", "result": "1", "grade": "Excellent ++"},
+      {"min": "13.0", "max": "16.9", "result": "2", "grade": "Excellent +"},
+      {"min": "12.5", "max": "17", "result": "3", "grade": "Excellent"},
       {"min": "0.0", "max": "12.5", "result": "4", "grade": "VG OR LOWER"},
       {"min": "17.0", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ],
     "crown_angle": [
-      {"min": "33.7", "max": "35.0", "result": "0", "grade": "+++EX"},
-      {"min": "32.7", "max": "35.5", "result": "1", "grade": "++EX"},
-      {"min": "32.1", "max": "36.0", "result": "2", "grade": "+EX"},
-      {"min": "31.5", "max": "36.5", "result": "3", "grade": "EX"},
+      {"min": "33.7", "max": "35.0", "result": "0", "grade": "Excellent +++"},
+      {"min": "32.7", "max": "35.5", "result": "1", "grade": "Excellent ++"},
+      {"min": "32.1", "max": "36.0", "result": "2", "grade": "Excellent +"},
+      {"min": "31.5", "max": "36.5", "result": "3", "grade": "Excellent"},
       {"min": "0.0", "max": "31.5", "result": "4", "grade": "VERY GOOD"},
       {"min": "36.5", "max": "1000.0", "result": "4", "grade": "VERY GOOD"}
     ],
     "lower_half": [
-      {"min": "70", "max": "85", "result": "0", "grade": "+++EX"},
+      {"min": "70", "max": "85", "result": "0", "grade": "Excellent +++"},
       {"min": "0", "max": "70.0", "result": "4", "grade": "VG OR LOWER"},
       {"min": "85", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ],
     "pavilion_depth": [
-      {"min": "42.2", "max": "43.8", "result": "0", "grade": "+++EX"},
-      {"min": "42.2", "max": "44.3", "result": "1", "grade": "++EX"},
-      {"min": "41.8", "max": "44.8", "result": "2", "grade": "+EX"},
+      {"min": "42.2", "max": "43.8", "result": "0", "grade": "Excellent +++"},
+      {"min": "42.2", "max": "44.3", "result": "1", "grade": "Excellent ++"},
+      {"min": "41.8", "max": "44.8", "result": "2", "grade": "Excellent +"},
       {"min": "0.0", "max": "41.7", "result": "4", "grade": "VG OR LOWER"},
       {"min": "44.8", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ],
     "pavilion_angle": [
-      {"min": "40.2", "max": "41.5", "result": "0", "grade": "+++EX"},
-      {"min": "40.2", "max": "41.5", "result": "1", "grade": "++EX"},
-      {"min": "40.3", "max": "41.7", "result": "2", "grade": "+EX"},
-      {"min": "40.6", "max": "41.8", "result": "3", "grade": "EX"},
+      {"min": "40.2", "max": "41.5", "result": "0", "grade": "Excellent +++"},
+      {"min": "40.2", "max": "41.5", "result": "1", "grade": "Excellent ++"},
+      {"min": "40.3", "max": "41.7", "result": "2", "grade": "Excellent +"},
+      {"min": "40.6", "max": "41.8", "result": "3", "grade": "Excellent"},
       {"min": "0.0", "max": "40.6", "result": "4", "grade": "VG OR LOWER"},
       {"min": "41.8", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ],
     "girdle": [
-      {"min": "1.5", "max": "4.5", "result": "0", "grade": "+++EX"},
+      {"min": "1.5", "max": "4.5", "result": "0", "grade": "Excellent +++"},
       {"min": "0.0", "max": "1.5", "result": "4", "grade": "VG OR LOWER"},
       {"min": "4.5", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ],
     "depth_pct": [
-      {"min": "45", "max": "65", "result": "0", "grade": "+++EX"},
+      {"min": "45", "max": "65", "result": "0", "grade": "Excellent +++"},
       {"min": "0", "max": "45", "result": "4", "grade": "VG OR LOWER"},
       {"min": "65", "max": "1000.0", "result": "4", "grade": "VG OR LOWER"}
     ]
@@ -73,20 +75,16 @@ class ReportScreenState extends State<ReportScreen> {
   List gradeList = [];
 
   final _input = GIAInput();
-
+  final detailReport = Report();
   // ignore: deprecated_member_use
   var reports = new List<Report>();
   // ignore: deprecated_member_use
   var reportByNumber = new Report();
-
+  bool isLoadingGia = false;
   String code = "";
   String validateGiaText = "";
   // ignore: non_constant_identifier_names
   String report_number = '';
-  bool isViewGIA = false;
-  bool isEnableAddGia = false;
-  bool isLoadingReports = false;
-
   final String _query = r'''
     query ReportQuery($reportNumber: String!) {
       getReport(report_number: $reportNumber){
@@ -190,23 +188,26 @@ class ReportScreenState extends State<ReportScreen> {
           if (this.mounted)
             {
               setState(() {
-                //isLoadingReports = false;
                 reports = value;
-                isViewGIA = false;
               })
             }
         });
   }
 
-  _getGIAReport() {
+  _getGIAReport() async {
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+
+    QueryResult result;
+
     if (report_number == '' || report_number.length != 10) {
       setState(() {
-        validateGiaText = "Report number must be 10 digits.";
+        validateGiaText =
+            "Invalid GIA number. Please check the number and try again.";
       });
       return;
     }
 
-    DBProvider.db.getReportByNumber(report_number).then((value) => {
+    DBProvider.db.getReportByNumber(report_number).then((value) async => {
           // ignore: sdk_version_ui_as_code
           if (value.length > 0)
             {
@@ -220,23 +221,47 @@ class ReportScreenState extends State<ReportScreen> {
             }
           else
             {
-              isEnableAddGia = true,
               setState(() {
-                isViewGIA = true;
-              })
+                isLoadingGia = true;
+              }),
+              result = await _client.query(
+                QueryOptions(
+                    documentNode: gql(_query),
+                    variables: {'reportNumber': report_number}),
+              ),
+              if (result.hasException)
+                {
+                  setState(() {
+                    validateGiaText =
+                        "GIA Report not found. Please check the number and try again.";
+                    isLoadingGia = false;
+                  }),
+                }
+              else if (result.data == null || result.data['getReport'] == null)
+                {
+                  setState(() {
+                    validateGiaText =
+                        "GIA Report not found. Please check the number and try again.";
+                    isLoadingGia = false;
+                  }),
+                }
+              else if (result.data['getReport']['results']
+                      ['shape_and_cutting_style'] !=
+                  'Round Brilliant')
+                {
+                  setState(() {
+                    validateGiaText =
+                        "GIA Report not found. Please check the number and try again.";
+                    isLoadingGia = false;
+                  }),
+                }
+              else
+                addReportToSql(result.data['getReport'])
             }
         });
   }
 
   addReportToSql(result) async {
-    var shape = result['results']['shape_and_cutting_style'];
-    if (shape != 'Round Brilliant') {
-      validateGiaText =
-          "GIA Report not found. Please check the number and try again.";
-      return;
-    }
-    isEnableAddGia = false;
-
     var weightRE = RegExp(r"-?(?:\d*\.)?\d+(?:[eE][+-]?\d+)?");
 
     _input.weight = result['results']['carat_weight'];
@@ -244,23 +269,50 @@ class ReportScreenState extends State<ReportScreen> {
         .allMatches(_input.weight)
         .map((m) => double.parse(m[0]))
         .toList();
-        
+
     _input.weight = weight[0].toString();
+    detailReport.weight = _input.weight;
 
     _input.clarity = result['results']['clarity_grade'];
+    detailReport.clarity = _input.clarity;
+
     _input.colour = result['results']['color_grade'];
+    detailReport.colour = _input.colour;
+
     _input.crownAngle = result['results']['proportions']['crown_angle'];
+    detailReport.crownangle = _input.crownAngle;
+
     _input.crownHeight = result['results']['proportions']['crown_height'];
+    detailReport.crownheight = _input.crownHeight;
+
     _input.culet = result['results']['proportions']['culet'];
+    detailReport.culet = _input.culet;
+
     _input.depthPct = result['results']['proportions']['depth_pct'];
+    detailReport.totaldepth = _input.depthPct;
+
     _input.girdle = result['results']['proportions']['girdle'];
+
     _input.lowerHalf = result['results']['proportions']['lower_half'];
+    detailReport.lowerhavels = _input.lowerHalf;
+
     _input.pavilionAngle = result['results']['proportions']['pavilion_angle'];
+    detailReport.pavillionangle = _input.pavilionAngle;
+
     _input.pavilionDepth = result['results']['proportions']['pavilion_depth'];
+    detailReport.pavilliondepth = _input.pavilionDepth;
+
     _input.starface = '';
+    detailReport.starfacelength = '';
+
     _input.tablePct = result['results']['proportions']['table_pct'];
+    detailReport.tablepct = _input.tablePct;
+
     _input.type = 1;
+    detailReport.type = _input.type;
+
     _input.gianumber = report_number;
+    detailReport.gianumber = _input.gianumber;
 
     var doubleRE = RegExp(r"-?(?:\d*\.)?\d+(?:[eE][+-]?\d+)?");
     var girdleNumbers = doubleRE
@@ -287,10 +339,20 @@ class ReportScreenState extends State<ReportScreen> {
     gradeList..sort((a, b) => b.result.compareTo(a.result));
 
     _input.girdle = girdleNumbers[0].toString();
+    detailReport.gridlethickness = _input.girdle;
+
     _input.grade = gradeList[0].grade;
+    detailReport.grade = _input.grade;
 
     await DBProvider.db.addGIAReport(_input.toJson());
-    _getReports();
+    setState(() {
+      isLoadingGia = false;
+    });
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => DetailReportScreen(report: detailReport)),
+    );
   }
 
   Future<dynamic> getGrade(currentVal) async {
@@ -357,7 +419,6 @@ class ReportScreenState extends State<ReportScreen> {
                             if (val.length != 10) {
                               validateGiaText =
                                   'Report numner must be 10 digits';
-                              isViewGIA = false;
                             } else
                               validateGiaText = '';
                           });
@@ -384,148 +445,19 @@ class ReportScreenState extends State<ReportScreen> {
               ],
             ),
           ),
-          isViewGIA == true
-              ? Query(
-                  options: QueryOptions(
-                      documentNode: gql(_query),
-                      variables: {'reportNumber': report_number}),
-                  builder: (
-                    QueryResult result, {
-                    VoidCallback refetch,
-                    FetchMore fetchMore,
-                  }) {
-                    if (result.loading) {
-                      return Container(
-                          child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            CircularProgressIndicator(
-                              backgroundColor: Colors.white,
-                              strokeWidth: 1,
-                            ),
-                          ],
-                        ),
-                      ));
-                    }
-
-                    if (result.hasException ||
-                        result.data == null ||
-                        result.data['getReport'] == null) {
-                      if (reports.length > 0)
-                        return Container(
-                            //margin: EdgeInsets.all(10.0),
-                            child: Column(
-                          children: [
-                            Container(
-                                alignment: Alignment.centerLeft,
-                                margin: EdgeInsets.only(left: 20, top: 5),
-                                child: Text(
-                                  validateGiaText,
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.red),
-                                )),
-                            Container(
-                                height:
-                                    (MediaQuery.of(context).size.height - 220),
-                                child: ListView.separated(
-                                  separatorBuilder: (context, index) => Divider(
-                                    color: Colors.white24,
-                                  ),
-                                  itemCount: reports.length,
-                                  itemBuilder: (context, index) =>
-                                      _buildReportItem(reports[index]),
-                                )),
-                          ],
-                        ));
-                      else
-                        return Container(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(left: 20, top: 5),
-                                  child: Text(
-                                    validateGiaText,
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.red),
-                                  )),
-                              Container(
-                                margin: EdgeInsets.only(top: 50.0),
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                    "assets/images/binoculars.png",
-                                    width: 150,
-                                    height: 150),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 20.0),
-                                child: Text(
-                                  "Find a stone!",
-                                  style: TextStyle(
-                                      letterSpacing: 5.0,
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 40.0),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Search for a stone and it will show up here.",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      letterSpacing: 1.5,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.white),
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                    } else {
-                      if (isEnableAddGia)
-                        addReportToSql(result.data['getReport']);
-
-                      return Container(
-                          child: Column(
-                        children: [
-                          Container(
-                              alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.only(left: 20, top: 5),
-                              child: Text(
-                                validateGiaText,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.red),
-                              )),
-                          Container(
-                              height:
-                                  (MediaQuery.of(context).size.height - 170),
-                              child: ListView.separated(
-                                separatorBuilder: (context, index) => Divider(
-                                  color: Colors.white24,
-                                ),
-                                itemCount: reports.length,
-                                itemBuilder: (context, index) =>
-                                    _buildReportItem(reports[index]),
-                              ))
-                        ],
-                      ));
-                    }
-                  },
-                )
+          isLoadingGia
+              ? Container(
+                  child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CircularProgressIndicator(
+                        backgroundColor: Colors.white,
+                        strokeWidth: 1,
+                      ),
+                    ],
+                  ),
+                ))
               : reports.length > 0
                   ? Container(
                       //margin: EdgeInsets.all(10.0),
@@ -658,13 +590,13 @@ class ReportScreenState extends State<ReportScreen> {
         Container(
             margin: EdgeInsets.only(right: 10),
             child: Text(
-              report.colour ?? '',
+              double.parse(report.weight).toStringAsFixed(2) + ' ct' ?? '',
               style: TextStyle(fontSize: 14),
             )),
         Container(
             margin: EdgeInsets.only(right: 10),
             child: Text(
-              report.weight + ' ct' ?? '',
+              report.colour ?? '',
               style: TextStyle(fontSize: 14),
             )),
         Container(
