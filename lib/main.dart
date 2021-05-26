@@ -14,22 +14,6 @@ import 'service/graphqlConf.dart';
 void main()  {
 
    WidgetsFlutterBinding.ensureInitialized();
-  // final HttpLink httpLink = HttpLink(
-  //   uri: 'https://api.reportresults.gia.edu',
-  // );
-
-  // final AuthLink authLink = AuthLink(
-  //   getToken: () => '81323e54-3793-47ce-a2b6-cba1ba5d4fcb',
-  //   // getToken: () => '36965900-7504-4e64-ba0b-263f66e4fd64',
-  // );
-  // Link link = authLink.concat(httpLink);
-
-  // ValueNotifier<GraphQLClient> client = ValueNotifier(
-  //   GraphQLClient(
-  //     cache: InMemoryCache(),
-  //     link: link,
-  //   ),
-  // );
   runApp(SortsApp(client: graphQLConfiguration.client));
 }
 
